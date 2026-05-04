@@ -36,7 +36,7 @@ export const Route = createFileRoute("/")({
 });
 
 const PHONE = "+998 93 507 57 95";
-const ADDRESS = "Yangizamon ko‘chasi, 11-uy, Toshkent";
+const ADDRESS = "Quruvchi dahasi, 1, Toshkent";
 
 function Index() {
   return (
@@ -136,7 +136,7 @@ function Hero() {
             </div>
             <div className="hidden sm:block text-right">
               <p className="text-xs uppercase tracking-[0.2em] opacity-80">Tajriba</p>
-              <p className="font-display text-2xl mt-1">10+ yil</p>
+              <p className="font-display text-2xl mt-1">3+ yil</p>
             </div>
           </div>
         </div>
