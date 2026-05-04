@@ -35,7 +35,7 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const PHONE = "+998 90 000 00 00";
+const PHONE = "+998 93 507 57 95";
 const ADDRESS = "Yangizamon ko‘chasi, 11-uy, Toshkent";
 
 function Index() {
