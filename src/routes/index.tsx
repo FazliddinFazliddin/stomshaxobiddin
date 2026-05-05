@@ -615,10 +615,24 @@ function Footer() {
             href={MAP_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-start gap-2 text-foreground hover:text-primary transition-colors"
+            aria-label={`${t.address} — Google Maps`}
+            className="group block overflow-hidden rounded-xl border border-border bg-card shadow-soft transition-all hover:border-primary/60 hover:shadow-elegant focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
-            <MapPin className="h-4 w-4 mt-0.5 text-primary shrink-0" />
-            <span>{t.address}</span>
+            <div className="relative h-[140px] w-full overflow-hidden bg-muted">
+              <iframe
+                title="Map preview"
+                src="https://www.openstreetmap.org/export/embed.html?bbox=69.2558%2C41.2089%2C69.2719%2C41.2189&layer=mapnik&marker=41.21389%2C69.26387"
+                className="pointer-events-none absolute inset-0 h-full w-full border-0"
+                loading="lazy"
+              />
+              <span className="absolute bottom-2 right-2 rounded-md bg-white/95 px-2 py-1 text-[10px] font-medium text-ink shadow-sm">
+                Google Maps
+              </span>
+            </div>
+            <div className="flex items-start gap-2 p-3">
+              <MapPin className="h-4 w-4 mt-0.5 text-primary shrink-0" />
+              <span className="text-sm text-foreground group-hover:text-primary transition-colors">{t.address}</span>
+            </div>
           </a>
         </div>
       </div>
