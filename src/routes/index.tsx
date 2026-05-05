@@ -225,7 +225,7 @@ const useT = () => useContext(LangCtx);
 
 function LangProvider({ children }: { children: ReactNode }) {
   const [lang, setLang] = useState<Lang>("uz");
-  return <LangCtx.Provider value={{ lang, setLang, t: dict[lang] }}>{children}</LangCtx.Provider>;
+  return <LangCtx.Provider value={{ lang, setLang, t: dict[lang] as Dict }}>{children}</LangCtx.Provider>;
 }
 
 function Index() {
