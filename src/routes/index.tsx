@@ -49,7 +49,7 @@ const dict = {
       chief: "Bosh shifokor",
       doctor: "Dr. Shaxobiddin",
       experience: "Tajriba",
-      experienceVal: "3+ yil",
+      experienceVal: "8+ yil",
     },
     form: {
       free: "Bepul konsultatsiya",
@@ -86,13 +86,13 @@ const dict = {
       title2: "asbobimiz.",
       desc: "Biz shoshmaymiz. Har bir bemor uchun vaqt ajratamiz va davolash rejasini tushunarli qilib tushuntiramiz.",
       reasons: [
-        { title: "+3 yil tajriba", desc: "Yuzlab baxtli mijozlar va doimiy malaka oshirish." },
+        { title: "+8 yil tajriba", desc: "Yuzlab baxtli mijozlar va doimiy malaka oshirish." },
         { title: "Steril xavfsizlik", desc: "Yevropa standartlari bo‘yicha har bir asbob alohida sterilizatsiyadan o‘tadi." },
         { title: "Zamonaviy uskunalar", desc: "Raqamli rentgen va og‘riqsiz anesteziya texnikalari." },
         { title: "Halol narxlar", desc: "Hech qachon yashirin to‘lov yo‘q — barchasi davolashdan oldin kelishiladi." },
       ],
       stats: [
-        { n: "+3 yil", l: "Tajriba" },
+        { n: "+8 yil", l: "Tajriba" },
         { n: "500+", l: "Bemor" },
         { n: "Juft", l: "kunlari" },
       ],
@@ -101,7 +101,7 @@ const dict = {
       eyebrow: "Savol-javob",
       title: "Eng ko‘p so‘raladigan savollar.",
       items: [
-        { q: "Klinika qachon ishlaydi?", a: "Juft kunlari (Dushanba, Chorshanba, Juma): 09:00 – 19:00." },
+        { q: "Klinika qachon ishlaydi?", a: "Juft kunlari (Seshanba, Payshanba, Shanba): 09:00 – 19:00." },
         { q: "Qabulga qanday yozilaman?", a: "Yuqoridagi forma orqali yoki to‘g‘ridan-to‘g‘ri qo‘ng‘iroq qiling — 15 daqiqa ichida tasdiqlaymiz." },
         { q: "Davolash og‘riqlimi?", a: "Yo‘q. Biz zamonaviy anesteziya va yumshoq texnikalardan foydalanamiz." },
         { q: "Bolalarni qabul qilasizlarmi?", a: "Albatta. Bizda bolalar uchun alohida yondashuv bor." },
@@ -119,7 +119,7 @@ const dict = {
     },
     hours: {
       title: "Ish vaqti",
-      line: "Juft kunlari (Dushanba, Chorshanba, Juma)",
+      line: "Juft kunlari (Seshanba, Payshanba, Shanba)",
       time: "09:00 – 19:00",
     },
     footer: { rights: "Klinikasi", directions: "Yo‘nalish olish" },
@@ -133,12 +133,12 @@ const dict = {
       titleEm: "лучшая",
       title2: "презентация.",
       desc: "В клинике стоматолога Шахобиддина — современное оборудование, безболезненное лечение и настоящая забота.",
-      hours: "Чётные дни · 09:00–19:00",
+      hours: "Нечётные дни · 09:00–19:00",
       safe: "Стерильно и безопасно",
       chief: "Главный врач",
       doctor: "Др. Шахобиддин",
       experience: "Опыт",
-      experienceVal: "3+ года",
+      experienceVal: "8+ лет",
     },
     form: {
       free: "Бесплатная консультация",
@@ -175,13 +175,13 @@ const dict = {
       title2: "инструмент.",
       desc: "Мы не торопимся. Уделяем время каждому пациенту и понятно объясняем план лечения.",
       reasons: [
-        { title: "+3 года опыта", desc: "Сотни довольных пациентов и постоянное повышение квалификации." },
+        { title: "+8 лет опыта", desc: "Сотни довольных пациентов и постоянное повышение квалификации." },
         { title: "Стерильная безопасность", desc: "Каждый инструмент стерилизуется по европейским стандартам." },
         { title: "Современное оборудование", desc: "Цифровой рентген и безболезненная анестезия." },
         { title: "Честные цены", desc: "Никаких скрытых платежей — всё согласовывается до лечения." },
       ],
       stats: [
-        { n: "+3 года", l: "Опыт" },
+        { n: "+8 лет", l: "Опыт" },
         { n: "500+", l: "Пациентов" },
         { n: "Чёт.", l: "дни" },
       ],
@@ -190,7 +190,7 @@ const dict = {
       eyebrow: "Вопрос-ответ",
       title: "Часто задаваемые вопросы.",
       items: [
-        { q: "Когда работает клиника?", a: "Чётные дни (Понедельник, Среда, Пятница): 09:00 – 19:00." },
+        { q: "Когда работает клиника?", a: "Нечётные дни (Вторник, Четверг, Суббота): 09:00 – 19:00." },
         { q: "Как записаться на приём?", a: "Через форму выше или позвоните напрямую — подтвердим за 15 минут." },
         { q: "Лечение болезненное?", a: "Нет. Используем современную анестезию и мягкие техники." },
         { q: "Принимаете ли детей?", a: "Конечно. У нас особый подход к детям." },
@@ -208,7 +208,7 @@ const dict = {
     },
     hours: {
       title: "Часы работы",
-      line: "Чётные дни (Понедельник, Среда, Пятница)",
+      line: "Нечётные дни (Вторник, Четверг, Суббота)",
       time: "09:00 – 19:00",
     },
     footer: { rights: "Клиника", directions: "Построить маршрут" },
