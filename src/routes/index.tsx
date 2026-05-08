@@ -30,7 +30,7 @@ export const Route = createFileRoute("/")({
 });
 
 const PHONE = "+998 93 507 57 95";
-const MAP_URL = "https://www.google.com/maps/dir/?api=1&destination=41.20867,69.21547";
+const MAP_URL = "https://www.google.com/maps/dir/?api=1&destination=41.2086667,69.2154722";
 
 type Lang = "uz" | "ru";
 
