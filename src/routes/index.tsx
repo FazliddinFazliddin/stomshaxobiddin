@@ -21,7 +21,7 @@ export const Route = createFileRoute("/")({
           "Shaxobiddin shifokor — Toshkentdagi zamonaviy stomatologiya klinikasi. Bepul konsultatsiya uchun yoziling.",
       },
       { property: "og:title", content: "Stomatolog Shaxobiddin — Premium stomatologiya" },
-      { property: "og:description", content: "Sog‘lom va chiroyli tabassum uchun ishonchli manzil. Toshkent, Quruvchi dahasi 1." },
+      { property: "og:description", content: "Sog‘lom va chiroyli tabassum uchun ishonchli manzil. Toshkent, Sergeli-I massivi, 12." },
       { property: "og:image", content: heroDentist },
       { property: "og:type", content: "website" },
     ],
@@ -37,7 +37,7 @@ type Lang = "uz" | "ru";
 const dict = {
   uz: {
     nav: { services: "Xizmatlar", whyUs: "Nega biz", faq: "Savollar", call: "Qo‘ng‘iroq" },
-    address: "Quruvchi dahasi 1, Toshkent",
+    address: "Sergeli-I massivi, 12, Toshkent",
     hero: {
       badge: "Toshkent · Premium stomatologiya",
       title1: "Tabassumingiz —",
@@ -126,7 +126,7 @@ const dict = {
   },
   ru: {
     nav: { services: "Услуги", whyUs: "Почему мы", faq: "Вопросы", call: "Звонок" },
-    address: "Куручи даха 1, Ташкент",
+    address: "массив Сергели-I, 12, Ташкент",
     hero: {
       badge: "Ташкент · Премиум стоматология",
       title1: "Ваша улыбка —",
