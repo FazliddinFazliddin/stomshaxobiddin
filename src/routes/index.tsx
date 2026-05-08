@@ -30,7 +30,7 @@ export const Route = createFileRoute("/")({
 });
 
 const PHONE = "+998 93 507 57 95";
-const MAP_URL = "https://www.google.com/maps/dir/?api=1&destination=41.21389,69.26387";
+const MAP_URL = "https://www.google.com/maps/dir/?api=1&destination=41.20867,69.21547";
 
 type Lang = "uz" | "ru";
 
@@ -44,7 +44,7 @@ const dict = {
       titleEm: "eng kuchli",
       title2: "taqdimnomangiz.",
       desc: "Stomatolog Shaxobiddin klinikasida zamonaviy uskunalar, og‘riqsiz davolash va haqiqiy g‘amxo‘rlik.",
-      hours: "Juft kunlari · 09:00–19:00",
+      hours: "Toq kunlari · 09:00–20:00",
       safe: "Steril & xavfsiz",
       chief: "Bosh shifokor",
       doctor: "Dr. Shaxobiddin",
@@ -94,14 +94,14 @@ const dict = {
       stats: [
         { n: "+8 yil", l: "Tajriba" },
         { n: "500+", l: "Bemor" },
-        { n: "Juft", l: "kunlari" },
+        { n: "Toq", l: "kunlari" },
       ],
     },
     faq: {
       eyebrow: "Savol-javob",
       title: "Eng ko‘p so‘raladigan savollar.",
       items: [
-        { q: "Klinika qachon ishlaydi?", a: "Juft kunlari (Seshanba, Payshanba, Shanba): 09:00 – 19:00." },
+        { q: "Klinika qachon ishlaydi?", a: "Toq kunlari (Dushanba, Chorshanba, Juma): 09:00 – 20:00." },
         { q: "Qabulga qanday yozilaman?", a: "Yuqoridagi forma orqali yoki to‘g‘ridan-to‘g‘ri qo‘ng‘iroq qiling — 15 daqiqa ichida tasdiqlaymiz." },
         { q: "Davolash og‘riqlimi?", a: "Yo‘q. Biz zamonaviy anesteziya va yumshoq texnikalardan foydalanamiz." },
         { q: "Bolalarni qabul qilasizlarmi?", a: "Albatta. Bizda bolalar uchun alohida yondashuv bor." },
@@ -119,8 +119,8 @@ const dict = {
     },
     hours: {
       title: "Ish vaqti",
-      line: "Juft kunlari (Seshanba, Payshanba, Shanba)",
-      time: "09:00 – 19:00",
+      line: "Toq kunlari (Dushanba, Chorshanba, Juma)",
+      time: "09:00 – 20:00",
     },
     footer: { rights: "Klinikasi", directions: "Yo‘nalish olish" },
   },
@@ -133,7 +133,7 @@ const dict = {
       titleEm: "лучшая",
       title2: "презентация.",
       desc: "В клинике стоматолога Шахобиддина — современное оборудование, безболезненное лечение и настоящая забота.",
-      hours: "Чётные дни · 09:00–19:00",
+      hours: "Нечётные дни · 09:00–20:00",
       safe: "Стерильно и безопасно",
       chief: "Главный врач",
       doctor: "Др. Шахобиддин",
@@ -183,14 +183,14 @@ const dict = {
       stats: [
         { n: "+8 лет", l: "Опыт" },
         { n: "500+", l: "Пациентов" },
-        { n: "Чёт.", l: "дни" },
+        { n: "Неч.", l: "дни" },
       ],
     },
     faq: {
       eyebrow: "Вопрос-ответ",
       title: "Часто задаваемые вопросы.",
       items: [
-        { q: "Когда работает клиника?", a: "Чётные дни (Вторник, Четверг, Суббота): 09:00 – 19:00." },
+        { q: "Когда работает клиника?", a: "Нечётные дни (Понедельник, Среда, Пятница): 09:00 – 20:00." },
         { q: "Как записаться на приём?", a: "Через форму выше или позвоните напрямую — подтвердим за 15 минут." },
         { q: "Лечение болезненное?", a: "Нет. Используем современную анестезию и мягкие техники." },
         { q: "Принимаете ли детей?", a: "Конечно. У нас особый подход к детям." },
@@ -208,8 +208,8 @@ const dict = {
     },
     hours: {
       title: "Часы работы",
-      line: "Чётные дни (Вторник, Четверг, Суббота)",
-      time: "09:00 – 19:00",
+      line: "Нечётные дни (Понедельник, Среда, Пятница)",
+      time: "09:00 – 20:00",
     },
     footer: { rights: "Клиника", directions: "Построить маршрут" },
   },
@@ -621,7 +621,7 @@ function Footer() {
             <div className="relative h-[140px] w-full overflow-hidden bg-muted">
               <iframe
                 title="Map preview"
-                src="https://www.openstreetmap.org/export/embed.html?bbox=69.2558%2C41.2089%2C69.2719%2C41.2189&layer=mapnik&marker=41.21389%2C69.26387"
+                src="https://www.openstreetmap.org/export/embed.html?bbox=69.2075%2C41.2037%2C69.2235%2C41.2137&layer=mapnik&marker=41.20867%2C69.21547"
                 className="pointer-events-none absolute inset-0 h-full w-full border-0"
                 loading="lazy"
               />
