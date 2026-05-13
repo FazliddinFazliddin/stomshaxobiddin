@@ -14,7 +14,54 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      bookings: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          notified: boolean
+          phone: string
+          service: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          notified?: boolean
+          phone: string
+          service?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          notified?: boolean
+          phone?: string
+          service?: string | null
+        }
+        Relationships: []
+      }
+      telegram_recipients: {
+        Row: {
+          chat_id: number
+          created_at: string
+          id: string
+          username: string
+        }
+        Insert: {
+          chat_id: number
+          created_at?: string
+          id?: string
+          username: string
+        }
+        Update: {
+          chat_id?: number
+          created_at?: string
+          id?: string
+          username?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
