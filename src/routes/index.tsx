@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { createContext, useContext, useState, type ReactNode } from "react";
+import { submitBooking } from "@/lib/booking.functions";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
 import {
@@ -361,19 +363,27 @@ function ContactForm() {
   const { t } = useT();
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({ name: "", phone: "", service: "" });
+  const submitBookingFn = useServerFn(submitBooking);
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.name.trim() || !form.phone.trim()) {
       toast.error(t.form.errMissing);
       return;
     }
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
+    try {
+      await submitBookingFn({
+        data: { name: form.name, phone: form.phone, service: form.service },
+      });
       toast.success(t.form.ok);
       setForm({ name: "", phone: "", service: "" });
-    }, 900);
+    } catch (err) {
+      console.error(err);
+      toast.error(t.form.errMissing);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
