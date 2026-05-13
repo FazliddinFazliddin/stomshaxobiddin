@@ -101,18 +101,22 @@ export const submitBooking = createServerFn({ method: "POST" })
       `<b>Xizmat:</b> ${escapeHtml(data.service || "—")}\n` +
       `<b>Vaqt:</b> ${new Date().toLocaleString("uz-UZ", { timeZone: "Asia/Tashkent" })}`;
 
-    try {
-      await tg("sendMessage", {
-        chat_id: chatId,
-        text,
-        parse_mode: "HTML",
-        disable_web_page_preview: true,
-      });
-      await supabaseAdmin.from("bookings").update({ notified: true }).eq("id", booking.id);
-      return { ok: true, notified: true };
+      try {
+        await tg("sendMessage", {
+          chat_id: chatId,
+          text,
+          parse_mode: "HTML",
+          disable_web_page_preview: true,
+        });
+        await supabaseAdmin.from("bookings").update({ notified: true }).eq("id", booking.id);
+        return { ok: true, notified: true };
+      } catch (e) {
+        console.error("[booking] Telegram send failed:", e);
+        return { ok: true, notified: false };
+      }
     } catch (e) {
-      console.error("Telegram send failed:", e);
-      return { ok: true, notified: false };
+      console.error("[booking] handler failed:", e);
+      throw e;
     }
   });
 
