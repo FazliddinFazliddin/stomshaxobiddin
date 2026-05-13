@@ -68,14 +68,23 @@ async function getDoctorChatId(): Promise<number | null> {
 export const submitBooking = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => BookingInput.parse(input))
   .handler(async ({ data }) => {
-    const { data: booking, error } = await supabaseAdmin
-      .from("bookings")
-      .insert({ name: data.name, phone: data.phone, service: data.service || null })
-      .select()
-      .single();
-    if (error) throw new Error(error.message);
+    try {
+      const { data: booking, error } = await supabaseAdmin
+        .from("bookings")
+        .insert({ name: data.name, phone: data.phone, service: data.service || null })
+        .select()
+        .single();
+      if (error) {
+        console.error("[booking] insert failed:", error);
+        throw new Error(`DB insert failed: ${error.message}`);
+      }
 
-    const chatId = await getDoctorChatId();
+      let chatId: number | null = null;
+      try {
+        chatId = await getDoctorChatId();
+      } catch (e) {
+        console.error("[booking] getDoctorChatId failed:", e);
+      }
     if (!chatId) {
       return {
         ok: true,
