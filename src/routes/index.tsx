@@ -379,8 +379,8 @@ function ContactForm() {
       toast.success(t.form.ok);
       setForm({ name: "", phone: "", service: "" });
     } catch (err) {
-      console.error(err);
-      toast.error(t.form.errMissing);
+      console.error("Booking submit failed:", err);
+      toast.error("Xatolik yuz berdi. Iltimos, qaytadan urinib ko'ring.");
     } finally {
       setLoading(false);
     }
