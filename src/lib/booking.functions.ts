@@ -8,7 +8,12 @@ const GATEWAY_URL = "https://connector-gateway.lovable.dev/telegram";
 const BookingInput = z.object({
   name: z.string().trim().min(1).max(80),
   phone: z.string().trim().min(3).max(30),
+  email: z.string().trim().max(120).optional().default(""),
   service: z.string().trim().max(100).optional().default(""),
+  preferredAt: z.string().trim().max(120).optional().default(""),
+  notes: z.string().trim().max(1000).optional().default(""),
+  // honeypot — bots fill this, humans don't see it
+  website: z.string().max(0).optional().default(""),
 });
 
 async function tg(method: string, body: Record<string, unknown>) {
