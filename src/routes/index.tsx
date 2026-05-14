@@ -59,7 +59,12 @@ const dict = {
       sub: "Sizga 15 daqiqa ichida qo‘ng‘iroq qilamiz.",
       name: "Ismingiz",
       phone: "Telefon raqam",
+      email: "Email (ixtiyoriy)",
       service: "Xizmat (ixtiyoriy)",
+      preferredAt: "Qulay vaqt (ixtiyoriy)",
+      preferredAtPh: "Masalan: Dushanba, 15:00",
+      notes: "Qo‘shimcha izoh (ixtiyoriy)",
+      notesPh: "Bizga aytmoqchi bo‘lgan narsa…",
       placeholder: "Tanlang…",
       services: ["Tish davolash", "Tish oqartirish", "Implantatsiya", "Bolalar stomatologiyasi", "Konsultatsiya"],
       submit: "Qo‘ng‘iroqqa yozilish",
@@ -148,7 +153,12 @@ const dict = {
       sub: "Перезвоним вам в течение 15 минут.",
       name: "Ваше имя",
       phone: "Телефон",
+      email: "Email (необязательно)",
       service: "Услуга (необязательно)",
+      preferredAt: "Удобное время (необязательно)",
+      preferredAtPh: "Например: Понедельник, 15:00",
+      notes: "Дополнительно (необязательно)",
+      notesPh: "Что хотите нам сообщить…",
       placeholder: "Выберите…",
       services: ["Лечение зубов", "Отбеливание", "Имплантация", "Детская стоматология", "Консультация"],
       submit: "Записаться на звонок",
@@ -362,8 +372,12 @@ function Hero() {
 function ContactForm() {
   const { t } = useT();
   const [loading, setLoading] = useState(false);
-  const [form, setForm] = useState({ name: "", phone: "", service: "" });
+  const emptyForm = { name: "", phone: "", email: "", service: "", preferredAt: "", notes: "", website: "" };
+  const [form, setForm] = useState(emptyForm);
   const submitBookingFn = useServerFn(submitBooking);
+
+  const inputCls =
+    "w-full bg-transparent border-0 border-b border-border focus:border-primary outline-none py-2 text-base placeholder:text-muted-foreground/60 transition-colors";
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -373,11 +387,9 @@ function ContactForm() {
     }
     setLoading(true);
     try {
-      await submitBookingFn({
-        data: { name: form.name, phone: form.phone, service: form.service },
-      });
+      await submitBookingFn({ data: form });
       toast.success(t.form.ok);
-      setForm({ name: "", phone: "", service: "" });
+      setForm(emptyForm);
     } catch (err) {
       console.error("Booking submit failed:", err);
       toast.error("Xatolik yuz berdi. Iltimos, qaytadan urinib ko'ring.");
@@ -395,6 +407,18 @@ function ContactForm() {
       <p className="text-sm text-muted-foreground mt-1">{t.form.sub}</p>
 
       <form onSubmit={submit} className="mt-6 space-y-4">
+        {/* Honeypot — hidden from humans, bots will fill it */}
+        <input
+          type="text"
+          name="website"
+          tabIndex={-1}
+          autoComplete="off"
+          value={form.website}
+          onChange={(e) => setForm({ ...form, website: e.target.value })}
+          className="absolute left-[-9999px] top-auto h-0 w-0 overflow-hidden opacity-0"
+          aria-hidden="true"
+        />
+
         <Field label={t.form.name}>
           <input
             type="text"
@@ -403,7 +427,7 @@ function ContactForm() {
             value={form.name}
             onChange={(e) => setForm({ ...form, name: e.target.value })}
             placeholder={t.form.name}
-            className="w-full bg-transparent border-0 border-b border-border focus:border-primary outline-none py-2 text-base placeholder:text-muted-foreground/60 transition-colors"
+            className={inputCls}
           />
         </Field>
         <Field label={t.form.phone}>
@@ -414,7 +438,17 @@ function ContactForm() {
             value={form.phone}
             onChange={(e) => setForm({ ...form, phone: e.target.value })}
             placeholder="+998 __ ___ __ __"
-            className="w-full bg-transparent border-0 border-b border-border focus:border-primary outline-none py-2 text-base placeholder:text-muted-foreground/60 transition-colors"
+            className={inputCls}
+          />
+        </Field>
+        <Field label={t.form.email}>
+          <input
+            type="email"
+            maxLength={120}
+            value={form.email}
+            onChange={(e) => setForm({ ...form, email: e.target.value })}
+            placeholder="you@example.com"
+            className={inputCls}
           />
         </Field>
         <Field label={t.form.service}>
@@ -428,6 +462,26 @@ function ContactForm() {
               <option key={s}>{s}</option>
             ))}
           </select>
+        </Field>
+        <Field label={t.form.preferredAt}>
+          <input
+            type="text"
+            maxLength={120}
+            value={form.preferredAt}
+            onChange={(e) => setForm({ ...form, preferredAt: e.target.value })}
+            placeholder={t.form.preferredAtPh}
+            className={inputCls}
+          />
+        </Field>
+        <Field label={t.form.notes}>
+          <textarea
+            maxLength={1000}
+            rows={2}
+            value={form.notes}
+            onChange={(e) => setForm({ ...form, notes: e.target.value })}
+            placeholder={t.form.notesPh}
+            className={`${inputCls} resize-none`}
+          />
         </Field>
 
         <button

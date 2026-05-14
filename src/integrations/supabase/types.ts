@@ -17,26 +17,35 @@ export type Database = {
       bookings: {
         Row: {
           created_at: string
+          email: string | null
           id: string
           name: string
+          notes: string | null
           notified: boolean
           phone: string
+          preferred_at: string | null
           service: string | null
         }
         Insert: {
           created_at?: string
+          email?: string | null
           id?: string
           name: string
+          notes?: string | null
           notified?: boolean
           phone: string
+          preferred_at?: string | null
           service?: string | null
         }
         Update: {
           created_at?: string
+          email?: string | null
           id?: string
           name?: string
+          notes?: string | null
           notified?: boolean
           phone?: string
+          preferred_at?: string | null
           service?: string | null
         }
         Relationships: []
