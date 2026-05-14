@@ -80,7 +80,14 @@ function escapeHtml(s: string) {
 async function runHandler(data: z.infer<typeof BookingInput>) {
   const { data: booking, error } = await supabaseAdmin
     .from("bookings")
-    .insert({ name: data.name, phone: data.phone, service: data.service || null })
+    .insert({
+      name: data.name,
+      phone: data.phone,
+      email: data.email || null,
+      service: data.service || null,
+      preferred_at: data.preferredAt || null,
+      notes: data.notes || null,
+    })
     .select()
     .single();
   if (error) {
@@ -102,12 +109,18 @@ async function runHandler(data: z.infer<typeof BookingInput>) {
     };
   }
 
-  const text =
-    `🦷 <b>Yangi yozuv</b>\n\n` +
-    `<b>Ism:</b> ${escapeHtml(data.name)}\n` +
-    `<b>Telefon:</b> <a href="tel:${escapeHtml(data.phone)}">${escapeHtml(data.phone)}</a>\n` +
-    `<b>Xizmat:</b> ${escapeHtml(data.service || "—")}\n` +
-    `<b>Vaqt:</b> ${new Date().toLocaleString("uz-UZ", { timeZone: "Asia/Tashkent" })}`;
+  const lines = [
+    `🦷 <b>Yangi yozuv</b>`,
+    ``,
+    `<b>Ism:</b> ${escapeHtml(data.name)}`,
+    `<b>Telefon:</b> <a href="tel:${escapeHtml(data.phone)}">${escapeHtml(data.phone)}</a>`,
+  ];
+  if (data.email) lines.push(`<b>Email:</b> ${escapeHtml(data.email)}`);
+  if (data.service) lines.push(`<b>Xizmat:</b> ${escapeHtml(data.service)}`);
+  if (data.preferredAt) lines.push(`<b>Vaqt (so'rov):</b> ${escapeHtml(data.preferredAt)}`);
+  if (data.notes) lines.push(`<b>Izoh:</b> ${escapeHtml(data.notes)}`);
+  lines.push(`<b>Yuborildi:</b> ${new Date().toLocaleString("uz-UZ", { timeZone: "Asia/Tashkent" })}`);
+  const text = lines.join("\n");
 
   const sent = await tg("sendMessage", {
     chat_id: chatId,
