@@ -78,6 +78,12 @@ function escapeHtml(s: string) {
 }
 
 async function runHandler(data: z.infer<typeof BookingInput>) {
+  // Honeypot triggered — silently accept and drop
+  if (data.website) {
+    console.warn("[booking] honeypot triggered, dropping submission");
+    return { ok: true, notified: false };
+  }
+
   const { data: booking, error } = await supabaseAdmin
     .from("bookings")
     .insert({
