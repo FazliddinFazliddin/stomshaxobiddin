@@ -1,0 +1,4 @@
+ALTER TABLE public.bookings
+  ADD COLUMN IF NOT EXISTS email TEXT,
+  ADD COLUMN IF NOT EXISTS preferred_at TEXT,
+  ADD COLUMN IF NOT EXISTS notes TEXT;
