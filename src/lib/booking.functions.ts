@@ -16,43 +16,74 @@ const BookingInput = z.object({
   website: z.string().max(200).optional().nullable().default(""),
 });
 
-async function tg(method: string, body: Record<string, unknown>) {
-  const LOVABLE_API_KEY = process.env.LOVABLE_API_KEY;
-  const TELEGRAM_API_KEY = process.env.TELEGRAM_API_KEY;
-  if (!LOVABLE_API_KEY || !TELEGRAM_API_KEY) {
-    throw new Error("Telegram credentials not configured");
-  }
-  const res = await fetch(`${GATEWAY_URL}/${method}`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${LOVABLE_API_KEY}`,
-      "X-Connection-Api-Key": TELEGRAM_API_KEY,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(body),
-  });
-  const data = await res.json();
-  if (!res.ok || !data.ok) {
-    throw new Error(`Telegram ${method} failed: ${JSON.stringify(data)}`);
-  }
-  return data;
-}
+type TelegramConfig =
+  | { mode: "direct"; token: string; chatId: string }
+  | { mode: "gateway" };
 
-async function findChatIdFromUpdates(username: string): Promise<number | null> {
-  const data = await tg("getUpdates", {});
-  const target = username.toLowerCase();
-  const updates: any[] = data.result ?? [];
-  for (let i = updates.length - 1; i >= 0; i--) {
-    const m = updates[i].message ?? updates[i].edited_message;
-    const u = m?.from?.username;
-    if (u && u.toLowerCase() === target && m?.chat?.id) {
-      return m.chat.id as number;
-    }
+async function getTelegramConfig(): Promise<TelegramConfig | null> {
+  const { data } = await supabaseAdmin
+    .from("admin_settings")
+    .select("telegram_bot_token, telegram_chat_id")
+    .eq("id", 1)
+    .maybeSingle();
+  if (data?.telegram_bot_token && data?.telegram_chat_id) {
+    return { mode: "direct", token: data.telegram_bot_token, chatId: data.telegram_chat_id };
+  }
+  if (process.env.LOVABLE_API_KEY && process.env.TELEGRAM_API_KEY) {
+    return { mode: "gateway" };
   }
   return null;
 }
 
-async function getDoctorChatId(): Promise<number | null> {
+async function sendTelegram(cfg: TelegramConfig, text: string): Promise<boolean> {
+  if (cfg.mode === "direct") {
+    const res = await fetch(`https://api.telegram.org/bot${cfg.token}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        chat_id: cfg.chatId,
+        text,
+        parse_mode: "HTML",
+        disable_web_page_preview: true,
+      }),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || !data.ok) {
+      console.error("[booking] direct telegram send failed:", data);
+      return false;
+    }
+    return true;
+  }
+
+  // gateway fallback
+  const chatId = await getDoctorChatIdViaGateway().catch((e) => {
+    console.error("[booking] gateway chat id lookup failed:", e);
+    return null;
+  });
+  if (!chatId) return false;
+  const res = await fetch(`${GATEWAY_URL}/sendMessage`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${process.env.LOVABLE_API_KEY}`,
+      "X-Connection-Api-Key": process.env.TELEGRAM_API_KEY!,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      chat_id: chatId,
+      text,
+      parse_mode: "HTML",
+      disable_web_page_preview: true,
+    }),
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok || !data.ok) {
+    console.error("[booking] gateway telegram send failed:", data);
+    return false;
+  }
+  return true;
+}
+
+async function getDoctorChatIdViaGateway(): Promise<number | null> {
   const { data } = await supabaseAdmin
     .from("telegram_recipients")
     .select("chat_id")
@@ -60,15 +91,27 @@ async function getDoctorChatId(): Promise<number | null> {
     .maybeSingle();
   if (data?.chat_id) return Number(data.chat_id);
 
-  const found = await findChatIdFromUpdates(DOCTOR_USERNAME).catch((e) => {
-    console.error("[booking] findChatIdFromUpdates failed:", e);
-    return null;
+  const res = await fetch(`${GATEWAY_URL}/getUpdates`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${process.env.LOVABLE_API_KEY}`,
+      "X-Connection-Api-Key": process.env.TELEGRAM_API_KEY!,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({}),
   });
-  if (found) {
-    await supabaseAdmin
-      .from("telegram_recipients")
-      .upsert({ username: DOCTOR_USERNAME, chat_id: found }, { onConflict: "username" });
-    return found;
+  const payload = await res.json().catch(() => ({}));
+  if (!res.ok || !payload.ok) return null;
+  const updates: any[] = payload.result ?? [];
+  const target = DOCTOR_USERNAME.toLowerCase();
+  for (let i = updates.length - 1; i >= 0; i--) {
+    const m = updates[i].message ?? updates[i].edited_message;
+    if (m?.from?.username?.toLowerCase() === target && m?.chat?.id) {
+      await supabaseAdmin
+        .from("telegram_recipients")
+        .upsert({ username: DOCTOR_USERNAME, chat_id: m.chat.id }, { onConflict: "username" });
+      return m.chat.id as number;
+    }
   }
   return null;
 }
