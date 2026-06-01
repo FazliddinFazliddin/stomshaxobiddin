@@ -144,17 +144,16 @@ async function runHandler(data: z.infer<typeof BookingInput>) {
     throw new Error(`DB insert failed: ${error.message}`);
   }
 
-  const chatId = await getDoctorChatId().catch((e) => {
-    console.error("[booking] getDoctorChatId failed:", e);
+  const cfg = await getTelegramConfig().catch((e: unknown) => {
+    console.error("[booking] getTelegramConfig failed:", e);
     return null;
   });
 
-  if (!chatId) {
+  if (!cfg) {
     return {
       ok: true,
       notified: false,
-      message:
-        "Saqlandi, lekin shifokor hali botni ishga tushirmagan.",
+      message: "Saqlandi, lekin Telegram hali sozlanmagan.",
     };
   }
 
@@ -171,13 +170,8 @@ async function runHandler(data: z.infer<typeof BookingInput>) {
   lines.push(`<b>Yuborildi:</b> ${new Date().toLocaleString("uz-UZ", { timeZone: "Asia/Tashkent" })}`);
   const text = lines.join("\n");
 
-  const sent = await tg("sendMessage", {
-    chat_id: chatId,
-    text,
-    parse_mode: "HTML",
-    disable_web_page_preview: true,
-  }).then(() => true).catch((e) => {
-    console.error("[booking] Telegram send failed:", e);
+  const sent = await sendTelegram(cfg, text).catch((e: unknown) => {
+    console.error("[booking] sendTelegram failed:", e);
     return false;
   });
 
