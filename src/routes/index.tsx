@@ -150,12 +150,9 @@ const dict = {
       sub: "Перезвоним вам в течение 15 минут.",
       name: "Ваше имя",
       phone: "Телефон",
-      email: "Email (необязательно)",
       service: "Услуга (необязательно)",
       preferredAt: "Удобное время (необязательно)",
       preferredAtPh: "Например: Понедельник, 15:00",
-      notes: "Дополнительно (необязательно)",
-      notesPh: "Что хотите нам сообщить…",
       placeholder: "Выберите…",
       services: ["Лечение зубов", "Отбеливание", "Имплантация", "Детская стоматология", "Консультация"],
       submit: "Записаться на звонок",
@@ -369,7 +366,7 @@ function Hero() {
 function ContactForm() {
   const { t } = useT();
   const [loading, setLoading] = useState(false);
-  const emptyForm = { name: "", phone: "", email: "", service: "", preferredAt: "", notes: "", website: "" };
+  const emptyForm = { name: "", phone: "", service: "", preferredAt: "", website: "" };
   const [form, setForm] = useState(emptyForm);
   const submitBookingFn = useServerFn(submitBooking);
 
@@ -438,16 +435,6 @@ function ContactForm() {
             className={inputCls}
           />
         </Field>
-        <Field label={t.form.email}>
-          <input
-            type="email"
-            maxLength={120}
-            value={form.email}
-            onChange={(e) => setForm({ ...form, email: e.target.value })}
-            placeholder="you@example.com"
-            className={inputCls}
-          />
-        </Field>
         <Field label={t.form.service}>
           <select
             value={form.service}
@@ -468,16 +455,6 @@ function ContactForm() {
             onChange={(e) => setForm({ ...form, preferredAt: e.target.value })}
             placeholder={t.form.preferredAtPh}
             className={inputCls}
-          />
-        </Field>
-        <Field label={t.form.notes}>
-          <textarea
-            maxLength={1000}
-            rows={2}
-            value={form.notes}
-            onChange={(e) => setForm({ ...form, notes: e.target.value })}
-            placeholder={t.form.notesPh}
-            className={`${inputCls} resize-none`}
           />
         </Field>
 
