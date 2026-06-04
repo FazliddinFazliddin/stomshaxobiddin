@@ -43,6 +43,9 @@ export const Route = createRootRoute({
       { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/cc2f5fbe-53bd-411f-b90f-36a5698efd74/id-preview-0df1bce8--f9cdbd83-25b3-406e-ad09-74dc4276160e.lovable.app-1777713780892.png" },
     ],
     links: [
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@300;400;500;600&display=swap" },
       {
         rel: "stylesheet",
         href: appCss,
