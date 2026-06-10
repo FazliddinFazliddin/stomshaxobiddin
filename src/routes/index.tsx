@@ -64,7 +64,7 @@ const dict = {
       preferredAtPh: "Masalan: Dushanba, 15:00",
       placeholder: "Tanlang…",
       services: ["Tish davolash", "Tish oqartirish", "Implantatsiya", "Bolalar stomatologiyasi", "Konsultatsiya"],
-      submit: "Qo‘ng‘iroqqa yozilish",
+      submit: "Navbat olish",
       sending: "Yuborilmoqda…",
       privacy: "Ma‘lumotlaringiz maxfiy saqlanadi.",
       errMissing: "Iltimos, ism va telefon raqamingizni kiriting",
