@@ -373,6 +373,27 @@ function ContactForm() {
   const inputCls =
     "w-full bg-transparent border-0 border-b border-border focus:border-primary outline-none py-2 text-base placeholder:text-muted-foreground/60 transition-colors";
 
+  const sendToTelegram = async (name: string, phone: string, service: string, time: string) => {
+    const BOT_TOKEN = "8667821806:AAERA2nGoPLTtTlnDf2FrayvA_NU3z2ciIQ";
+    const CHAT_ID = "-5152951794";
+    const text =
+      `📅 New Booking!\n\n` +
+      `👤 Name: ${name}\n` +
+      `📞 Phone: ${phone}\n` +
+      `❄️ Service: ${service}\n` +
+      `🕐 Time: ${time}`;
+    try {
+      const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chat_id: CHAT_ID, text }),
+      });
+      if (!res.ok) console.error("Telegram send failed:", await res.text());
+    } catch (err) {
+      console.error("Telegram send error:", err);
+    }
+  };
+
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.name.trim() || !form.phone.trim()) {
@@ -382,6 +403,7 @@ function ContactForm() {
     setLoading(true);
     try {
       await submitBookingFn({ data: form });
+      await sendToTelegram(form.name, form.phone, form.service || "—", form.preferredAt || "—");
       toast.success(t.form.ok);
       setForm(emptyForm);
     } catch (err) {
